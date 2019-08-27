@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{5268F8EA-EBCE-37B6-4A25-A1254224D5B1}") = "Aselsan Ar", "Assembly-CSharp.csproj", "{AEFB4A06-12D1-914B-47BA-AB20D76E762B}"
+EndProject
+Project("{5268F8EA-EBCE-37B6-4A25-A1254224D5B1}") = "Aselsan Ar", "Assembly-CSharp-Editor.csproj", "{623053BB-C6C5-E8AC-19C0-A360778ACBC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AEFB4A06-12D1-914B-47BA-AB20D76E762B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEFB4A06-12D1-914B-47BA-AB20D76E762B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEFB4A06-12D1-914B-47BA-AB20D76E762B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEFB4A06-12D1-914B-47BA-AB20D76E762B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{623053BB-C6C5-E8AC-19C0-A360778ACBC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{623053BB-C6C5-E8AC-19C0-A360778ACBC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{623053BB-C6C5-E8AC-19C0-A360778ACBC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{623053BB-C6C5-E8AC-19C0-A360778ACBC9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal

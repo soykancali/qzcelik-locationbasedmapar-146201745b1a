@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{EAA9562A-F780-7FCE-AF5B-A1A592F54883}") = "aselsanar", "Assembly-CSharp.csproj", "{F4822A6A-36C1-7E9F-D605-6B1F0E0E078C}"
+EndProject
+Project("{EAA9562A-F780-7FCE-AF5B-A1A592F54883}") = "aselsanar", "Assembly-CSharp-Editor.csproj", "{9ECDE2FF-29D8-6123-AD73-14CCEF1EF7C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F4822A6A-36C1-7E9F-D605-6B1F0E0E078C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4822A6A-36C1-7E9F-D605-6B1F0E0E078C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4822A6A-36C1-7E9F-D605-6B1F0E0E078C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4822A6A-36C1-7E9F-D605-6B1F0E0E078C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ECDE2FF-29D8-6123-AD73-14CCEF1EF7C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ECDE2FF-29D8-6123-AD73-14CCEF1EF7C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ECDE2FF-29D8-6123-AD73-14CCEF1EF7C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ECDE2FF-29D8-6123-AD73-14CCEF1EF7C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
