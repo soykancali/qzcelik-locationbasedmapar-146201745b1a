@@ -53,9 +53,9 @@ public class NetworkListener : MonoBehaviour {
 
     public string receivedString = "Pending..";
 	void Start () {
-	    udpClient = new UdpClient(19070);
+	    udpClient = new UdpClient(1234);
         Debug.Log("IPAddress: "+ ipaddress);
-        IPEndPoint RemoteIpEndPoint = new IPEndPoint(ipaddress, 19070);
+        IPEndPoint RemoteIpEndPoint = new IPEndPoint(ipaddress, 1234);
         Debug.Log("Start Listening..");
         udpClient.BeginReceive(new System.AsyncCallback(recvCb), null);
         
@@ -72,7 +72,7 @@ public class NetworkListener : MonoBehaviour {
     public void recvCb(System.IAsyncResult res)
     {
       
-        IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 19070);
+        IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1234);
 
         byte[] received = udpClient.EndReceive(res, ref RemoteIpEndPoint);
     

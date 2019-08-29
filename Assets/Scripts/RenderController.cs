@@ -204,6 +204,7 @@ public class RenderController : MonoBehaviour
                 // Den Text zum Remote-Client senden.
                 if (text != "")
                 {
+                    
 
                     // Daten mit der UTF8-Kodierung in das Binärformat kodieren.
                     byte[] data = Encoding.UTF8.GetBytes(text);
