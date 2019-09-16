@@ -110,7 +110,7 @@ public class CursorPosition : MonoBehaviour {
         
         SymbolController.Instance.symbols.Add(new SymbolController.Symbol(SymbolController.Instance.symbolsInfo[PlayerPrefs.GetInt("iconIndex")].getName() + counter.ToString(),
             SymbolController.Instance.symbolsInfo[PlayerPrefs.GetInt("iconIndex")].getIcons(), 0, 0, km.ToString()));
-
+        ClientControllerUDP.loc =System.Convert.ToString(km);   //ssc
 
 
         /*createdSymbol.Add (new SymbolController.Symbol(SymbolController.Instance.symbolsInfo[PlayerPrefs.GetInt("iconIndex")].getName() + counter.ToString(), 

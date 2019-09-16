@@ -13,7 +13,7 @@ public class SymbolManager : MonoBehaviour
     DistanceController distanceController;
     UIController uiController;
 
-
+    bool isSymbolCreated=false;
     public void Awake()
     {
         instance = this;
@@ -167,7 +167,7 @@ public class SymbolManager : MonoBehaviour
                     receivedData.text = receivedData.text + "\n" + "Atış Mesafesi: 21.7 Km";
                 }
                 */
-
+                 
                 //Activate selected symbol object border
                 for (int i = 0; i < indexies.Count; i++)
                 {
@@ -192,13 +192,15 @@ public class SymbolManager : MonoBehaviour
                     symbols[tempID].transform.Find("border").GetComponent<Renderer>().enabled = false;
                 }
             }
+
+            isSymbolCreated = true;
         }
     }
     //************************************************************************************************************
     //SYMBOL CREATION IN THEIR SPECIFIC LOCATIONS
     private void SymbolCreator()
     {
-        while (loadInfoList.Count > 0)
+        while (isSymbolCreated)
         {
             //Get the symbol package and assign to 'loadInfo'
             LoadInfo loadInfo = loadInfoList[0];

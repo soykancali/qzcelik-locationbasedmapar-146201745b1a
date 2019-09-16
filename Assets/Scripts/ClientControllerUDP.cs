@@ -5,29 +5,31 @@ using System;
 using System.Linq;
 using System.IO;
 using System.Net.Sockets;
-
+using System.Net;
+using Newtonsoft.Json;
 public class ClientControllerUDP : MonoBehaviour
 {
     bool clientReady = false;
 
-    UdpClient udpClient = new UdpClient();
+    UdpClient udpClient;
 
     //TcpClient mySocket;
     Stream theStream;
-
     StreamWriter theWriter;
     StreamReader theReader;
-    //String Host = "127.0.0.1";
-    //String Host = "192.168.20.59"; //PC
+    public String Host = "127.0.0.1";
+    //public String Host = "192.168.137.140"; // Sony Z2
     //String Host = "192.168.20.51"; //LG G1
-    public String Host = "192.168.20.59";  //Samsung S6
-    public int Port = 19070;
+    //public String Host = "192.168.20.59";  //Samsung S6
+    public int Port = 1333;
 
+    public static string loc;
+    
 
-    public GameObject sourceObj;
-    Texture2D sourceTexture;
-    Texture2D destTexture;
-    Renderer sourceRenderer;
+    //public GameObject sourceObj;
+    //Texture2D sourceTexture;
+    //Texture2D destTexture;
+    //Renderer sourceRenderer;
 
     public Texture2D failureTex;
     public Text packageInfo;
@@ -35,28 +37,28 @@ public class ClientControllerUDP : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //Get the source object renderer (camera renderer)
-        sourceRenderer = sourceObj.GetComponent<Renderer>();
+        //Get the source object renderer(camera renderer)
+        //sourceRenderer = sourceObj.GetComponent<Renderer>();
         //----------
         //Set the camera renderer as texture2D
-        sourceTexture = sourceRenderer.material.mainTexture as Texture2D;
+        //sourceTexture = sourceRenderer.material.mainTexture as Texture2D;
 
         //Get the pixels od camera renderer
-        Color32[] pix = sourceTexture.GetPixels32();
-        System.Array.Reverse(pix);
+        //Color32[] pix = sourceTexture.GetPixels32();
+        //System.Array.Reverse(pix);
 
         //Create a new texture2D with the sizes of source texture2D
-        destTexture = new Texture2D(sourceTexture.width, sourceTexture.height);
-        //Set the pixels of camera renderer (texture2D) to the destTexture
-        destTexture.SetPixels32(pix);
+        //destTexture = new Texture2D(sourceTexture.width, sourceTexture.height);
+        //Set the pixels of camera renderer(texture2D) to the destTexture
+        //destTexture.SetPixels32(pix);
         //Apply these pixel
-        destTexture.Apply();
+        //destTexture.Apply();
 
         //Call setupSocket to send destTexture
-        setupSocket();
+        //setupSocket();
 
         //Clear memory
-        Array.Clear(pix, 0, pix.Length);
+        //Array.Clear(pix, 0, pix.Length);
 
         Resources.UnloadUnusedAssets();
 
@@ -69,81 +71,143 @@ public class ClientControllerUDP : MonoBehaviour
 
 
     }
+    public class MapInfo
+    {
+        public float lat;
+        public float lot;
+        public float alt;
+        public string name;
+
+        public MapInfo(float lat, float lot, float alt, string name)
+        {
+            this.lat = lat;
+            this.lot = lot;
+            this.alt = alt;
+            this.name = name;
+        }
+        public MapInfo() { }
+
+
+        public float getLat()
+        {
+            return lat;
+        }
+
+        public float getLot()
+        {
+            return lot;
+        }
+        public float getAlt()
+        {
+            return alt;
+        }
+        public string getName()
+        {
+            return name;
+        }
+    }
+   
 
     // Update is called once per frame
     void Update()
     {
-        
-        sourceRenderer = sourceObj.GetComponent<Renderer>();
-        //----------
-        sourceTexture = sourceRenderer.material.mainTexture as Texture2D;
+       // JsonConvert.SerializeObject("nesne");
+       //mesageınfo =  JsonConvert.DeserializeObject<"sınıf tipi">("strinbg");
 
-        Color32[] pix = sourceTexture.GetPixels32();
-        //Color32[] testPix = Enumerable.Repeat(sourceTexture, sourceTexture.width * sourceTexture.height).ToArray();
-        System.Array.Reverse(pix);
+        
+        //sourceRenderer = sourceObj.GetComponent<Renderer>();
+        ////----------
+        //sourceTexture = sourceRenderer.material.mainTexture as Texture2D;
+
+        //Color32[] pix = sourceTexture.GetPixels32();
+        ////Color32[] testPix = Enumerable.Repeat(sourceTexture, sourceTexture.width * sourceTexture.height).ToArray();
+        //System.Array.Reverse(pix);
        
 
-        destTexture = new Texture2D(sourceTexture.width, sourceTexture.height);
-        destTexture.SetPixels32(pix);
-        Array.Clear(pix, 0, pix.Length);
+        //destTexture = new Texture2D(sourceTexture.width, sourceTexture.height);
+        //destTexture.SetPixels32(pix);
+        //Array.Clear(pix, 0, pix.Length);
 
-        destTexture.Apply();
+        //destTexture.Apply();
 
         //Call setupSocket to send destTexture
         setupSocket();
 
         //GetComponent<Renderer>().material.mainTexture = destTexture;
 
-        Invoke("garbageCollector", 1);
+       // Invoke("garbageCollector", 1);
     }
 
     public void setupSocket()
     {
+        
+            udpClient  = new UdpClient();
+            IPEndPoint ip = new IPEndPoint(IPAddress.Parse(Host), Port);
+            clientReady = true;
+            MapInfo mapInfo = new MapInfo(12345.0f, 21345.0f, 13.0f, "Sembol");
+
+        // Debug.Log(JsonUtility.ToJson(mapInfo));
+        string a = JsonConvert.SerializeObject(mapInfo);
+
+            MapInfo map = JsonConvert.DeserializeObject<MapInfo>(a);
+
+            //Debug.Log(map.getAlt());
+            //Debug.Log(map.getLat());
+            //Debug.Log(map.getLot());
+            //Debug.Log(map.getName());
+            Debug.Log("Client is Ready." + a);
         try
         {
-            udpClient.Connect(Host, Port);
 
-
-            clientReady = true;
-
-            Debug.Log("Client is Ready.");
-
-
+            udpClient.Connect(ip);
             if (!clientReady)
-                return;
+                return;         
             else
             {
-                byte[] data = destTexture.EncodeToJPG();
-                
-                if (data != null)
-                {
-                    udpClient.Send(data, data.Length);
+                Debug.Log("baglantı saglandı"+ip);
+                //byte[] data = destTexture.EncodeToJPG();
+                //a = map.lat.ToString()+map.lot.ToString();
+                byte[] locVeri = System.Text.Encoding.ASCII.GetBytes(a);
 
-                    destTexture.Apply(true, true);
-                    Debug.Log("Data has been sent!");
+                if (locVeri != null)
+                {
+
+                    //udpClient.Send(data, data.Length);
+                    udpClient.Send(locVeri, locVeri.Length);
+                    //destTexture.Apply(true, true);
+                    Debug.Log("Local Veri" + locVeri.Length+locVeri[1]);
+                    // Debug.Log("Data has been sent!");
                 }
                 else
                 {
                     Debug.Log("Data is NULL!");
                 }
             }
-
         }
+
         catch (Exception e)
         {
             packageInfo.text = "Exception: " + e;
+            e.ToString();
 
             //byte[] infoData = failureTex.EncodeToJPG();
             //udpClient.Send(infoData, infoData.Length);
 
-            //Debug.Log("Socket error:" + e);
+            Debug.Log("Socket error:" + e);
         }
+        clientReady = false;
+        
+    }
+    private void OnApplicationQuit()
+    {
+        udpClient.Close();
     }
 
     private void garbageCollector()
     {
         Resources.UnloadUnusedAssets();
         GC.Collect();
+        
         GC.WaitForPendingFinalizers();
 
         Invoke("garbageCollector", 1);

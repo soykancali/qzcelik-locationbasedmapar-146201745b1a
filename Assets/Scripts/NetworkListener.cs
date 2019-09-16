@@ -10,13 +10,15 @@ using UnityEngine.UI;
 public class NetworkListener : MonoBehaviour {
 
     UdpClient udpClient;
-    IPAddress ipaddress = IPAddress.Parse("127.0.0.1");
+    IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
     //IPAddress ipaddress = IPAddress.Parse("192.168.20.195");
+    //IPAddress ipAddress = IPAddress.Parse("192.168.137.140");
     
     public SymbolManager symbolManager;
 
     public Text receivedData;
-
+    public Text transmittingData;
+    public string transmitString;
     [Serializable]
     public struct UserInfo
     {
@@ -53,11 +55,14 @@ public class NetworkListener : MonoBehaviour {
 
     public string receivedString = "Pending..";
 	void Start () {
-	    udpClient = new UdpClient(1234);
-        Debug.Log("IPAddress: "+ ipaddress);
-        IPEndPoint RemoteIpEndPoint = new IPEndPoint(ipaddress, 1234);
+        Debug.Log("NETWORK LISTENER ");
+
+	    udpClient = new UdpClient(1333);
+        Debug.Log("IPAddress: "+ ipAddress);
+        IPEndPoint RemoteIpEndPoint = new IPEndPoint(ipAddress, 1333);
         Debug.Log("Start Listening..");
         udpClient.BeginReceive(new System.AsyncCallback(recvCb), null);
+      
         
 	}
 	
@@ -71,21 +76,40 @@ public class NetworkListener : MonoBehaviour {
 
     public void recvCb(System.IAsyncResult res)
     {
+        Debug.Log("veri alınıyor");
       
-        IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1234);
+        IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1333);
 
         byte[] received = udpClient.EndReceive(res, ref RemoteIpEndPoint);
-    
+   
 
         receivedString = System.Text.Encoding.UTF8.GetString(received);
-        Debug.Log("Data Received : " + receivedString); 
+        //Debug.Log("Data Received : " + receivedString); 
         TrackData trackData = JsonUtility.FromJson<TrackData>(receivedString);
+        Debug.Log("Alınan Veri:  "+receivedString);
+
         //Process codes
-
-
-        symbolManager.AddSymbol(trackData.trackInfo.trackId, trackData.trackInfo.trackLon, trackData.trackInfo.trackLat, trackData.trackInfo.trackAlt, trackData.trackInfo.category);
-
-
+        if (trackData.trackInfo.trackLat != 0 && trackData.trackInfo.trackLon != 0)
+        {
+            symbolManager.AddSymbol(trackData.trackInfo.trackId, trackData.trackInfo.trackLon, trackData.trackInfo.trackLat, trackData.trackInfo.trackAlt, trackData.trackInfo.category);
+            //Debug.Log("id" + trackData.trackInfo.trackId);
+            //Debug.Log("lon" + trackData.trackInfo.trackLon);
+            //Debug.Log("lat" + trackData.trackInfo.trackLat);
+            //Debug.Log("caty" + trackData.trackInfo.category);
+        }
+        else
+        {
+            Debug.Log("Lokasyon degişmedi"+trackData.trackInfo.trackLat+"-"+trackData.trackInfo.trackLon);
+        }
         udpClient.BeginReceive(new System.AsyncCallback(recvCb), null);
+    }
+    public void transmitData(System.IAsyncResult res)
+    {
+        //Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+        
+        //IPEndPoint IpTransEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1234);
+
+        //transmitString =;
+        //byte[] transmitByte = System.Text.Encoding.UTF8.GetBytes();
     }
 }

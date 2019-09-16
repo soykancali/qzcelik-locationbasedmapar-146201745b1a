@@ -35,7 +35,7 @@ public class ArcMapController : MonoBehaviour {
 
                 Texture2D _tex = _symbols.GetComponent<Renderer>().material.mainTexture as Texture2D;
                 Sprite _sprite = Sprite.Create(_tex, new Rect(0, 0, _tex.width, _tex.height), _img.transform.position);
-                Debug.Log("Sprite Name: " + _sprite);
+                Debug.Log("Sprite Name: " + _sprite+_tex.name);
                 _img.sprite = _sprite;
 
                 allMiniSymbols.Add(go);
