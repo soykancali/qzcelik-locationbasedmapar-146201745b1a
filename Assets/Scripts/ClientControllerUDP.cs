@@ -11,17 +11,17 @@ public class ClientControllerUDP : MonoBehaviour
 {
     bool clientReady = false;
 
-    UdpClient udpClient;
+    public UdpClient udpClient;
 
     //TcpClient mySocket;
     Stream theStream;
     StreamWriter theWriter;
     StreamReader theReader;
-    public String Host = "127.0.0.1";
+    public String Host = "192.168.3.200";
     //public String Host = "192.168.137.140"; // Sony Z2
     //String Host = "192.168.20.51"; //LG G1
     //public String Host = "192.168.20.59";  //Samsung S6
-    public int Port = 1333;
+    public int Port = 80;
 
     public static string loc;
     
@@ -77,13 +77,15 @@ public class ClientControllerUDP : MonoBehaviour
         public float lot;
         public float alt;
         public string name;
+        public int symbolIndex;
 
-        public MapInfo(float lat, float lot, float alt, string name)
+        public MapInfo(float lat, float lot, float alt, string name,int symbolIndex)
         {
             this.lat = lat;
             this.lot = lot;
             this.alt = alt;
             this.name = name;
+            this.symbolIndex = symbolIndex;
         }
         public MapInfo() { }
 
@@ -104,6 +106,10 @@ public class ClientControllerUDP : MonoBehaviour
         public string getName()
         {
             return name;
+        }
+        public int getSymbolIndex()
+        {
+            return symbolIndex;
         }
     }
    
@@ -143,14 +149,17 @@ public class ClientControllerUDP : MonoBehaviour
         
             udpClient  = new UdpClient();
             IPEndPoint ip = new IPEndPoint(IPAddress.Parse(Host), Port);
-            clientReady = true;
-            MapInfo mapInfo = new MapInfo(12345.0f, 21345.0f, 13.0f, "Sembol");
+           
+            MapInfo mapInfo = new MapInfo(39.90795f, 32.75042f, 2000.0f, "Bytes",1);
 
         // Debug.Log(JsonUtility.ToJson(mapInfo));
         string a = JsonConvert.SerializeObject(mapInfo);
 
             MapInfo map = JsonConvert.DeserializeObject<MapInfo>(a);
-
+        if (a.Length != 0)
+        {
+            clientReady = true;
+        }
             //Debug.Log(map.getAlt());
             //Debug.Log(map.getLat());
             //Debug.Log(map.getLot());
@@ -171,7 +180,7 @@ public class ClientControllerUDP : MonoBehaviour
 
                 if (locVeri != null)
                 {
-
+                    Debug.Log("symbolIndex :" + map.getSymbolIndex().ToString());
                     //udpClient.Send(data, data.Length);
                     udpClient.Send(locVeri, locVeri.Length);
                     //destTexture.Apply(true, true);
@@ -187,7 +196,7 @@ public class ClientControllerUDP : MonoBehaviour
 
         catch (Exception e)
         {
-            packageInfo.text = "Exception: " + e;
+            //packageInfo.text = "Exception: " + e;
             e.ToString();
 
             //byte[] infoData = failureTex.EncodeToJPG();
@@ -200,7 +209,7 @@ public class ClientControllerUDP : MonoBehaviour
     }
     private void OnApplicationQuit()
     {
-        udpClient.Close();
+        udpClient.Dispose();
     }
 
     private void garbageCollector()

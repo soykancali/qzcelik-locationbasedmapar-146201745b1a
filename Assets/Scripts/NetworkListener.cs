@@ -10,9 +10,10 @@ using UnityEngine.UI;
 public class NetworkListener : MonoBehaviour {
 
     UdpClient udpClient;
-    IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+    IPAddress ipAddress = IPAddress.Parse("192.168.3.200");
     //IPAddress ipaddress = IPAddress.Parse("192.168.20.195");
     //IPAddress ipAddress = IPAddress.Parse("192.168.137.140");
+    int port = 80;
     
     public SymbolManager symbolManager;
 
@@ -57,9 +58,9 @@ public class NetworkListener : MonoBehaviour {
 	void Start () {
         Debug.Log("NETWORK LISTENER ");
 
-	    udpClient = new UdpClient(1333);
+	    udpClient = new UdpClient(port);
         Debug.Log("IPAddress: "+ ipAddress);
-        IPEndPoint RemoteIpEndPoint = new IPEndPoint(ipAddress, 1333);
+        IPEndPoint RemoteIpEndPoint = new IPEndPoint(ipAddress, port);
         Debug.Log("Start Listening..");
         udpClient.BeginReceive(new System.AsyncCallback(recvCb), null);
       
@@ -78,7 +79,7 @@ public class NetworkListener : MonoBehaviour {
     {
         Debug.Log("veri alınıyor");
       
-        IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1333);
+        IPEndPoint RemoteIpEndPoint = new IPEndPoint(ipAddress,port);
 
         byte[] received = udpClient.EndReceive(res, ref RemoteIpEndPoint);
    
